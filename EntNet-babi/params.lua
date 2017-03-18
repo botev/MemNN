@@ -5,6 +5,7 @@
 cmd = torch.CmdLine()
 -- dataset parameters
 cmd:option('-task', 1)
+cmd:option('-seed', 123)
 cmd:option('-dataPath', 'data/tasks_1-20_v1-2/en-10k/')
 -- model parameters
 cmd:option('-model', 'entnet')
@@ -56,6 +57,7 @@ end
 -- set filename based on parameters
 opt.modelFilename = opt.save
     .. 'task=' .. opt.task
+    .. '-seed=' .. opt.seed
     .. '-model=' .. opt.model
     .. '-embed=' .. opt.embed
     .. '-edim=' .. opt.edim

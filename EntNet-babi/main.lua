@@ -6,7 +6,7 @@ paths.dofile('params.lua')
 paths.dofile('utils.lua')
 paths.dofile('layers/Normalization.lua')
 torch.setdefaulttensortype('torch.FloatTensor')
-g_make_deterministic(123)
+g_make_deterministic(opt.seed)
 
 -- load the data
 trdata = paths.dofile('data.lua')
@@ -127,7 +127,7 @@ for i = 1, opt.runs do
     print('RUN ' .. i)
     print('--------------------')
     -- reset the weights 
-    g_make_deterministic(i)
+    g_make_deterministic(opt.seed + i)
     model:reset()
     -- train
     final_perf_val[i] = train()

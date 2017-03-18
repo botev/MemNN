@@ -122,6 +122,30 @@ function build_model(opt)
    share_modules({get_module(model.network, 's_embed1')})
    share_modules({get_module(model.network, 'E')})
    share_modules({get_module(model.network, 'H')})
+   
+   print("Parameters: ")
+   model.paramx, model.paramdx = model.network:getParameters()
+   for i,v in pairs({'prelu', 'gate_bias', 'U', 'V', 'W', 'q_embed1', 's_embed1', 'E', 'H', 'z'}) do     
+       --print(i, v)
+       --print(#get_module(model.network, v)) 
+       local w = get_module(model.network, v)[1].weight
+       local b = get_module(model.network, v)[1].bias
+       if w then
+           if w:dim() == 2 then
+               print(string.format("W[%s]: (%d, %d)", v, w:size(1), w:size(2)))
+           else
+               print(string.format("W[%s]: (%d)", v, w:size(1))) 
+           end 
+       end
+       if b then
+           if b:dim() == 2 then
+               print(string.format("b[%s]: (%d, %d)", v, b:size(1), b:size(2)))
+           else
+               print(string.format("b[%s]: (%d)", v, b:size(1)))
+           end
+       end
+
+   end 
 
    model.paramx, model.paramdx = model.network:getParameters()
    model.loss = nn.ClassNLLCriterion():cuda()
